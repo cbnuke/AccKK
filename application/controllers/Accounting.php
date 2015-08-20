@@ -30,4 +30,52 @@ class Accounting extends CI_Controller {
         $this->template->showTemplate();
     }
 
+    public function add_transaction($from_function) {
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            if ($this->mAccounting->setValidationTransaction() && $this->form_validation->run()) {
+                $data = $this->mAccounting->getPostTransaction();
+                //create date
+                $data['create_date'] = $this->datetime->nowToDBFormat();
+                $data['create_by'] = $this->session->userdata('id_user');
+                if ($this->db->insert('tbl_transaction', $data)) {
+                    //Alert success and redirect to candidate
+                    $alert['alert_message'] = "เพิ่มรายรับเรียบร้อยแล้ว";
+                    $alert['alert_mode'] = "success";
+                    $this->session->set_userdata('alert', $alert);
+                } else {
+                    //Alert success and redirect to candidate
+                    $alert['alert_message'] = "กรุณาลองใหม่อีกครั้ง";
+                    $alert['alert_mode'] = "danger";
+                    $this->session->set_userdata('alert', $alert);
+                }
+            } else {
+                //Alert success and redirect to candidate
+                $alert['alert_message'] = "กรุณาลองใหม่อีกครั้ง";
+                $alert['alert_mode'] = "danger";
+                $this->session->set_userdata('alert', $alert);
+            }
+        }
+        redirect('accounting/' . $from_function);
+    }
+
+    public function del_transaction($from_function, $id_tran) {
+        if ($id_type == NULL) {
+            redirect('accounting/' . $from_function);
+        }
+
+        if ($this->db->delete('tbl_transaction', array('id_tran' => $id_tran))) {
+            //Alert success and redirect to candidate
+            $alert['alert_message'] = "ลบรายการเรียบร้อยแล้ว";
+            $alert['alert_mode'] = "success";
+            $this->session->set_userdata('alert', $alert);
+        } else {
+            //Alert success and redirect to candidate
+            $alert['alert_message'] = "กรุณาลองใหม่อีกครั้ง";
+            $alert['alert_mode'] = "danger";
+            $this->session->set_userdata('alert', $alert);
+        }
+
+        redirect('accounting/' . $from_function);
+    }
+
 }

@@ -5,16 +5,18 @@ if (!defined('BASEPATH'))
 
 class Accounting_model extends CI_Model {
 
-    function listTransaction($money_type = 'all') {
+    function listTransaction($type = NULL) {
         $this->db->from('tbl_transaction');
-        if ($money_type != 'all') {
-            $this->db->where('money_type', $money_type);
+        if ($type == 'income') {
+            $this->db->where('income IS NOT NULL');
+        } elseif ($type == 'outcome') {
+            $this->db->where('outcome IS NOT NULL');
         }
         $query = $this->db->get();
         return $query->result_array();
     }
 
-    function setFormTransaction($type = 'income') {
+    function setFormTransaction() {
         $i_income = array(
             'id' => 'income',
             'name' => 'income',
@@ -28,12 +30,6 @@ class Accounting_model extends CI_Model {
             'value' => set_value('outcome'),
             'type' => 'number',
             'autocomplete' => 'off',
-            'class' => 'form-control');
-        $i_money_type = array(
-            'id' => 'money_type',
-            'name' => 'money_type',
-            'value' => $type,
-            'type' => 'hidden',
             'class' => 'form-control');
         $i_action_date = array(
             'id' => 'action_date',
@@ -51,10 +47,32 @@ class Accounting_model extends CI_Model {
         $data = array(
             'income' => form_input($i_income),
             'outcome' => form_input($i_outcome),
-            'money_type' => form_input($i_money_type),
             'action_date' => form_input($i_action_date),
             'comment' => form_textarea($i_comment),
         );
+        return $data;
+    }
+
+    function setValidationTransaction() {
+        $this->form_validation->set_rules('income', '', 'trim');
+        $this->form_validation->set_rules('outcome', '', 'trim');
+        $this->form_validation->set_rules('money_type', '', 'trim|required');
+        $this->form_validation->set_rules('action_date', '', 'trim|required');
+        $this->form_validation->set_rules('comment', '', 'trim');
+        return true;
+    }
+
+    function getPostTransaction($id_tran = NULL) {
+        $data = array(
+            'income' => $this->input->post('income'),
+            'outcome' => $this->input->post('outcome'),
+            'money_type' => $this->input->post('money_type'),
+            'action_date' => date("Y-m-d H:i", strtotime($this->input->post('action_date'))),
+            'comment' => $this->input->post('comment'),
+        );
+        if ($id_tran != NULL) {
+            $data['id_tran'] = $id_tran;
+        }
         return $data;
     }
 

@@ -25,36 +25,34 @@
                 <table id="example1" class="table table-hover">
                     <thead>
                         <tr>
-                            <th>ID User</th>
-                            <th>ชื่อผู้ใช้งาน</th>
-                            <th>สร้างวันที่</th>
-                            <th>สร้างโดย</th>
-                            <th>แก้ไขล่าสุดวันที่</th>
-                            <th>แก้ไขโดย</th>
+                            <th>ลำดับ</th>
+                            <th>วันที่ เวลา</th>
+                            <th>คำอธิบาย</th>
+                            <th>DEBIT</th>
+                            <th>CREDIT</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php
-                        foreach ($listTransaction as $row) {
+                        foreach ($listTransaction as $key => $row) {
                             $per_delete = 'data-toggle="modal"';
                             $per_delete .= 'data-target="#deleteModal"';
-                            $per_delete .= 'data-id_user="' . $row['id_user'] . '"';
-                            $per_delete .= 'data-user_name="' . $row['user_name'] . '"';
-                            $per_delete .= 'data-yes-href="' . base_url('setting/del_user') . '/' . $row['id_user'] . '"';
+                            $per_delete .= 'data-del_date="' . $this->datetime->DBToHuman($row['action_date'], TRUE) . '"';
+                            $per_delete .= 'data-del_amount="' . $row['income'] . '"';
+                            $per_delete .= 'data-yes-href="' . base_url('accounting/del_transaction/income') . '/' . $row['id_tran'] . '"';
 
                             $per_edit = 'data-toggle="modal"';
                             $per_edit .= 'data-target="#editModal"';
-                            $per_edit .= 'data-id_user="' . $row['id_user'] . '"';
-                            $per_edit .= 'data-user_name="' . $row['user_name'] . '"';
+                            $per_edit .= 'data-id_user="' . $row['income'] . '"';
+                            $per_edit .= 'data-user_name="' . $row['money_type'] . '"';
                             ?>
                             <tr>
-                                <td><?= $row['id_user'] ?></td>
-                                <td><?= $row['user_name'] ?></td>
-                                <td><span class="label label-success"><?= $this->datetime->DBToHuman($row['create_date']) ?></span></td>
-                                <td><?= $row['create_by'] ?></td>
-                                <td><span class="label label-info"><?= $this->datetime->DBToHuman($row['update_date']) ?></span></td>
-                                <td><?= $row['update_by'] ?></td>
+                                <td><?= $key + 1 ?></td>
+                                <td><span class="label label-success"><?= $this->datetime->DBToHuman($row['action_date'], TRUE) ?></span></td>
+                                <td><?= $row['comment'] ?></td>
+                                <td><?= ($row['money_type'] == 'debit') ? $row['income'] : '' ?></td>
+                                <td><?= ($row['money_type'] == 'credit') ? $row['income'] : '' ?></td>
                                 <td>
                                     <button class="btn btn-info btn-sm" <?= $per_edit ?>><i class="fa fa-pencil-square-o"></i></button>
                                     <button class="btn btn-danger btn-sm" <?= $per_delete ?>><i class="fa fa-trash-o"></i></button>
@@ -69,7 +67,9 @@
 </div><!-- /.content-wrapper -->
 <script>
     $(function () {
-        $("#example1").DataTable();
+        $("#example1").DataTable({
+            "order": [[0, "desc"]]
+        });
 
         $('#editModal').on('show.bs.modal', function (e) {
             $(this).find('#edi_id_user').attr('value', $(e.relatedTarget).data('id_user'));
@@ -79,14 +79,14 @@
         $('#deleteModal').on('show.bs.modal', function (e) {
             $(this).find('#btn_yes').attr('href', $(e.relatedTarget).data('yes-href'));
 
-            $('#del_id').html($(e.relatedTarget).data('id_user'));
-            $('#del_name').html($(e.relatedTarget).data('user_name'));
+            $('#del_date').html($(e.relatedTarget).data('del_date'));
+            $('#del_amount').html($(e.relatedTarget).data('del_amount'));
         });
 
         $('#action_date').datetimepicker();
     });
 </script>
-<?= form_open('setting/add_user', array('class' => 'form-horizontal')) ?>
+<?= form_open('accounting/add_transaction/income', array('class' => 'form-horizontal')) ?>
 <div class="modal fade" id="addModal" >
     <div class="modal-dialog">
         <div class="modal-content">
@@ -95,11 +95,24 @@
                 <h4 class="modal-title">เพิ่มรายรับ</h4>
             </div>
             <div class="modal-body">
-
                 <div class="form-group">
                     <label class="col-sm-2 control-label">จำนวนเงิน</label>
                     <div class="col-sm-10">
                         <?= $input['income'] ?>
+                    </div>
+                </div>
+                <div class="form-inline form-group" style="padding-left: 150px;">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="money_type" value="debit" checked="">
+                            DEBIT
+                        </label>
+                    </div>
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="money_type" value="credit">
+                            CREDIT
+                        </label>
                     </div>
                 </div>
                 <div class="form-group">
@@ -116,7 +129,6 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <?= $input['money_type'] ?>
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">ยกเลิก</button>
                 <button type="submit" class="btn btn-primary">เพิ่ม</button>
             </div>
@@ -162,11 +174,11 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">คุณต้องการลบผู้ใช้งาน ใช่หรือไม่</h4>
+                <h4 class="modal-title">คุณต้องการลบรายการ ใช่หรือไม่</h4>
             </div>
             <div class="modal-body">
-                <p>ยืนยันการลบ ID User : <span id="del_id" class="label label-danger"></span></p>
-                <p>ชื่อผู้ใช้งาน : <span id="del_name"></span></p>
+                <p>วันที่ เวลา: <span id="del_date" class="label label-success"></span></p>
+                <p>จำนวน : <span id="del_amount"></span></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">ยกเลิก</button>
