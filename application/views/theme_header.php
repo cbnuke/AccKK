@@ -23,6 +23,9 @@
         <!-- bootstrap datetimepicker -->
         <?= css('bootstrap-datetimepicker.min.css') ?>
 
+        <!-- morris -->
+        <?= css('morris.css') ?>
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -43,6 +46,9 @@
         <?= js('moment-with-locales.js') ?>
         <!-- bootstrap datetimepicker -->
         <?= js('bootstrap-datetimepicker.min.js') ?>
+        <!-- morris -->
+        <?= js('raphael-min.js') ?>
+        <?= js('plugins/morris/morris.min.js') ?>
     </head>
     <!-- ADD THE CLASS sidedar-collapse TO HIDE THE SIDEBAR PRIOR TO LOADING THE SITE -->
     <body class="skin-green-light sidebar-collapse sidebar-mini">
