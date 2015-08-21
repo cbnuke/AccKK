@@ -2,11 +2,11 @@
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
-        <h1>เพิ่ม รายรับ รายจ่าย<small>รายรับ</small>
+        <h1>เพิ่ม รายรับ รายจ่าย<small>รายจ่าย</small>
         </h1>
         <ol class="breadcrumb">
             <li class="active"><a href="#"><i class="fa fa-edit"></i> เพิ่ม รายรับ รายจ่าย</a></li>
-            <li class="active"><a href="#"><i class="fa fa-usd"></i> รายรับ</a></li>
+            <li class="active"><a href="#"><i class="fa fa-usd"></i> รายจ่าย</a></li>
         </ol>
     </section>
 
@@ -15,7 +15,7 @@
         <!-- Default box -->
         <div class="box">
             <div class="box-header">
-                <h3 class="box-title">ตารางรายรับ</h3>
+                <h3 class="box-title">ตารางรายจ่าย</h3>
                 <div class="pull-right box-tools">
                     <!-- Button trigger modal -->
                     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#addModal" title="test"><i class="fa fa-plus"></i></button>
@@ -43,30 +43,30 @@
                             $per_delete = 'data-toggle="modal"';
                             $per_delete .= 'data-target="#deleteModal"';
                             $per_delete .= 'data-del_date="' . $this->datetime->DBToHuman($row['action_date'], TRUE) . '"';
-                            $per_delete .= 'data-del_amount="' . $row['income'] . '"';
-                            $per_delete .= 'data-yes-href="' . base_url('accounting/del_transaction/income') . '/' . $row['id_tran'] . '"';
+                            $per_delete .= 'data-del_amount="' . $row['outcome'] . '"';
+                            $per_delete .= 'data-yes-href="' . base_url('accounting/del_transaction/outcome') . '/' . $row['id_tran'] . '"';
 
                             $per_edit = 'data-toggle="modal"';
                             $per_edit .= 'data-target="#editModal"';
                             $per_edit .= 'data-id_tran="' . $row['id_tran'] . '"';
-                            $per_edit .= 'data-income="' . $row['income'] . '"';
+                            $per_edit .= 'data-outcome="' . $row['outcome'] . '"';
                             $per_edit .= 'data-money_type="' . $row['money_type'] . '"';
                             $temp = date("m/d/Y h:i A", strtotime($row['action_date']));
                             $per_edit .= 'data-action_date="' . $temp . '"';
                             $per_edit .= 'data-comment="' . $row['comment'] . '"';
 
                             if ($row['money_type'] == 'debit') {
-                                $total_debit+=$row['income'];
+                                $total_debit+=$row['outcome'];
                             } else if ($row['money_type'] == 'credit') {
-                                $total_credit+=$row['income'];
+                                $total_credit+=$row['outcome'];
                             }
                             ?>
                             <tr>
                                 <td><?= $key + 1 ?></td>
                                 <td><span class="label label-success"><?= $this->datetime->DBToHuman($row['action_date'], TRUE) ?></span></td>
                                 <td><?= $row['comment'] ?></td>
-                                <td><?= ($row['money_type'] == 'debit') ? $row['income'] : '' ?></td>
-                                <td><?= ($row['money_type'] == 'credit') ? $row['income'] : '' ?></td>
+                                <td><?= ($row['money_type'] == 'debit') ? $row['outcome'] : '' ?></td>
+                                <td><?= ($row['money_type'] == 'credit') ? $row['outcome'] : '' ?></td>
                                 <td>
                                     <button class="btn btn-info btn-sm" <?= $per_edit ?>><i class="fa fa-pencil-square-o"></i></button>
                                     <button class="btn btn-danger btn-sm" <?= $per_delete ?>><i class="fa fa-trash-o"></i></button>
@@ -95,7 +95,7 @@
 
         $('#editModal').on('show.bs.modal', function (e) {
             $(this).find('#id_tran').attr('value', $(e.relatedTarget).data('id_tran'));
-            $(this).find('#income').attr('value', $(e.relatedTarget).data('income'));
+            $(this).find('#outcome').attr('value', $(e.relatedTarget).data('outcome'));
 
             $(this).find('input:radio[name="money_type"]').filter('[value="' + $(e.relatedTarget).data('money_type') + '"]').attr('checked', true);
 
@@ -115,19 +115,19 @@
         $('#action_date').datetimepicker();
     });
 </script>
-<?= form_open('accounting/add_transaction/income', array('class' => 'form-horizontal')) ?>
+<?= form_open('accounting/add_transaction/outcome', array('class' => 'form-horizontal')) ?>
 <div class="modal fade" id="addModal" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">เพิ่มรายรับ</h4>
+                <h4 class="modal-title">เพิ่มรายจ่าย</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">จำนวนเงิน</label>
                     <div class="col-sm-10">
-                        <?= $input['income'] ?>
+                        <?= $input['outcome'] ?>
                     </div>
                 </div>
                 <div class="form-inline form-group">
@@ -143,7 +143,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">วันที่รายรับ</label>
+                    <label class="col-sm-2 control-label">วันที่รายจ่าย</label>
                     <div class="col-sm-10">
                         <?= $input['action_date'] ?>
                     </div>
@@ -164,19 +164,19 @@
 </div>
 <?= form_close() ?>
 
-<?= form_open('accounting/edit_transaction/income', array('class' => 'form-horizontal')) ?>
+<?= form_open('accounting/edit_transaction/outcome', array('class' => 'form-horizontal')) ?>
 <div class="modal fade" id="editModal" >
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
-                <h4 class="modal-title">แก้ไขรายรับ</h4>
+                <h4 class="modal-title">แก้ไขรายจ่าย</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label class="col-sm-2 control-label">จำนวนเงิน</label>
                     <div class="col-sm-10">
-                        <?= $input['income'] ?>
+                        <?= $input['outcome'] ?>
                     </div>
                 </div>
                 <div class="form-inline form-group">
@@ -192,7 +192,7 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label">วันที่รายรับ</label>
+                    <label class="col-sm-2 control-label">วันที่รายจ่าย</label>
                     <div class="col-sm-10">
                         <?= $input['action_date'] ?>
                     </div>

@@ -26,7 +26,12 @@ class Accounting extends CI_Controller {
     }
 
     public function outcome() {
-        $this->template->set_Content('404.php');
+        $data = array(
+            'listTransaction' => $this->mAccounting->listTransaction('outcome'),
+            'input' => $this->mAccounting->setFormTransaction('outcome'),
+        );
+
+        $this->template->set_Content('accounting/outcome.php', $data);
         $this->template->showTemplate();
     }
 
@@ -58,8 +63,38 @@ class Accounting extends CI_Controller {
         redirect('accounting/' . $from_function);
     }
 
+    public function edit_transaction($from_function) {
+        if ($this->input->post('id_tran') == NULL) {
+            redirect('accounting/' . $from_function);
+        }
+
+        if ($this->input->server('REQUEST_METHOD') === 'POST') {
+            if ($this->mAccounting->setValidationTransaction() && $this->form_validation->run()) {
+                $data = $this->mAccounting->getPostTransaction($this->input->post('id_tran'));
+                //create date
+                $data['update_date'] = $this->datetime->nowToDBFormat();
+                $data['update_by'] = $this->session->userdata('id_user');
+
+                $this->db->where('id_tran', $data['id_tran']);
+                unset($data['id_tran']);
+                if ($this->db->update('tbl_transaction', $data)) {
+                    //Alert success and redirect to candidate
+                    $alert['alert_message'] = "แก้ไขรายรับเรียบร้อยแล้ว";
+                    $alert['alert_mode'] = "success";
+                    $this->session->set_userdata('alert', $alert);
+                } else {
+                    //Alert success and redirect to candidate
+                    $alert['alert_message'] = "กรุณาลองใหม่อีกครั้ง";
+                    $alert['alert_mode'] = "danger";
+                    $this->session->set_userdata('alert', $alert);
+                }
+            }
+        }
+        redirect('accounting/' . $from_function);
+    }
+
     public function del_transaction($from_function, $id_tran) {
-        if ($id_type == NULL) {
+        if ($id_tran == NULL) {
             redirect('accounting/' . $from_function);
         }
 

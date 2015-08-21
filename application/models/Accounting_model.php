@@ -44,9 +44,24 @@ class Accounting_model extends CI_Model {
             'autocomplete' => 'off',
             'class' => 'form-control');
 
+        $i_money_type = '<div class="radio"><label>';
+        $i_money_type .= form_radio('money_type', 'debit', TRUE) . 'DEBIT</label></div>';
+        $i_money_type .= '<div class="radio col-lg-offset-1"><label>';
+        $i_money_type .= form_radio('money_type', 'credit', FALSE) . 'CREDIT</label></div>';
+
+        $options = array();
+        $query = $this->db->get('tbm_type');
+        $temp = $query->result_array();
+        foreach ($temp as $row) {
+            $options[$row['id_type']] = $row['type_name'];
+        }
+        reset($options);
+
         $data = array(
             'income' => form_input($i_income),
             'outcome' => form_input($i_outcome),
+            'money_type' => $i_money_type,
+            'id_type' => form_dropdown('id_type', $options, key($options), array('class' => 'form-control')),
             'action_date' => form_input($i_action_date),
             'comment' => form_textarea($i_comment),
         );
@@ -57,6 +72,7 @@ class Accounting_model extends CI_Model {
         $this->form_validation->set_rules('income', '', 'trim');
         $this->form_validation->set_rules('outcome', '', 'trim');
         $this->form_validation->set_rules('money_type', '', 'trim|required');
+        $this->form_validation->set_rules('id_type', '', 'trim|required');
         $this->form_validation->set_rules('action_date', '', 'trim|required');
         $this->form_validation->set_rules('comment', '', 'trim');
         return true;
@@ -67,118 +83,13 @@ class Accounting_model extends CI_Model {
             'income' => $this->input->post('income'),
             'outcome' => $this->input->post('outcome'),
             'money_type' => $this->input->post('money_type'),
+            'id_type' => $this->input->post('id_type'),
             'action_date' => date("Y-m-d H:i", strtotime($this->input->post('action_date'))),
             'comment' => $this->input->post('comment'),
         );
         if ($id_tran != NULL) {
             $data['id_tran'] = $id_tran;
         }
-        return $data;
-    }
-
-    function listUsers() {
-        $this->db->from('tbm_user');
-        $query = $this->db->get();
-        return $query->result_array();
-    }
-
-    function login($data) {
-        $session = array(
-            'id_user' => $data['id_user'],
-            'user_name' => $data['user_name'],
-            'create_date' => $data['create_date'],
-            'login' => TRUE
-        );
-        $this->session->set_userdata($session);
-        return TRUE;
-    }
-
-    function setFormType() {
-        $i_id_type = array(
-            'id' => 'id_type',
-            'name' => 'id_type',
-            'value' => set_value('id_type'),
-            'type' => 'number',
-            'autocomplete' => 'off',
-            'class' => 'form-control');
-        $i_type_name = array(
-            'id' => 'type_name',
-            'name' => 'type_name',
-            'value' => set_value('type_name'),
-            'autocomplete' => 'off',
-            'class' => 'form-control');
-        $i_type_des = array(
-            'id' => 'type_des',
-            'name' => 'type_des',
-            'value' => set_value('type_des'),
-            'autocomplete' => 'off',
-            'class' => 'form-control');
-
-        $data = array(
-            'id_type' => form_input($i_id_type),
-            'type_name' => form_input($i_type_name),
-            'type_des' => form_textarea($i_type_des),
-        );
-        return $data;
-    }
-
-    function setValidationType() {
-        $this->form_validation->set_rules('id_type', '', 'trim|required');
-        $this->form_validation->set_rules('type_name', '', 'trim|required');
-        $this->form_validation->set_rules('type_des', '', 'trim');
-        return true;
-    }
-
-    function getPostType() {
-        $data = array(
-            'id_type' => $this->input->post('id_type'),
-            'type_name' => $this->input->post('type_name'),
-            'type_des' => $this->input->post('type_des'),
-        );
-        return $data;
-    }
-
-    function setFormUser() {
-        $i_id_user = array(
-            'id' => 'id_user',
-            'name' => 'id_user',
-            'value' => set_value('id_user'),
-            'autocomplete' => 'off',
-            'class' => 'form-control');
-        $i_user_pass = array(
-            'id' => 'user_pass',
-            'name' => 'user_pass',
-            'value' => set_value('user_pass'),
-            'autocomplete' => 'off',
-            'class' => 'form-control');
-        $i_user_name = array(
-            'id' => 'user_name',
-            'name' => 'user_name',
-            'value' => set_value('user_name'),
-            'autocomplete' => 'off',
-            'class' => 'form-control');
-
-        $data = array(
-            'id_user' => form_input($i_id_user),
-            'user_pass' => form_password($i_user_pass),
-            'user_name' => form_input($i_user_name),
-        );
-        return $data;
-    }
-
-    function setValidationUser() {
-        $this->form_validation->set_rules('id_user', '', 'trim|required');
-        $this->form_validation->set_rules('user_pass', '', 'trim|required');
-        $this->form_validation->set_rules('user_name', '', 'trim|required');
-        return true;
-    }
-
-    function getPostUser() {
-        $data = array(
-            'id_user' => $this->input->post('id_user'),
-            'user_pass' => $this->input->post('user_pass'),
-            'user_name' => $this->input->post('user_name'),
-        );
         return $data;
     }
 
