@@ -61,7 +61,7 @@
                     <!-- mini logo for sidebar mini 50x50 pixels -->
                     <span class="logo-mini"><b>A</b>KK</span>
                     <!-- logo for regular state and mobile devices -->
-                    <span class="logo-lg"><b>Account</b>kaenkaew</span>
+                    <span class="logo-lg"><b>Accounting</b>kaenkaew</span>
                 </a>
                 <!-- Header Navbar: style can be found in header.less -->
                 <nav class="navbar navbar-static-top" role="navigation">

@@ -36,15 +36,15 @@
                     <li <?= (($page == 'outcome') ? 'class="active"' : '') ?>><a href="<?= base_url('accounting/outcome') ?>"><i class="fa fa-circle-o"></i> เพิ่มรายจ่าย</a></li>
                 </ul>
             </li>
-            <li class="treeview">
+            <li class="treeview <?= (($page == 'report') ? 'active' : '') ?>">
                 <a href="#">
                     <i class="fa fa-book"></i> <span>รายงาน</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li><a href="../forms/general.html"><i class="fa fa-circle-o"></i> General Elements</a></li>
-                    <li><a href="../forms/advanced.html"><i class="fa fa-circle-o"></i> Advanced Elements</a></li>
-                    <li><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                    <li  <?= (($page == 'today') ? 'class="active"' : '') ?>><a href="<?= base_url('report/today') ?>"><i class="fa fa-circle-o"></i> วันนี้</a></li>
+                    <li  <?= (($page == 'week') ? 'class="active"' : '') ?>><a href="<?= base_url('report/week') ?>"><i class="fa fa-circle-o"></i> สัปดาห์</a></li>
+                    <li  <?= (($page == 'income') ? 'class="active"' : '') ?>><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
                 </ul>
             </li>
             <li class="treeview <?= (($page == 'setting') ? 'active' : '') ?>">
