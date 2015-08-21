@@ -21,8 +21,8 @@
                     <button class="btn btn-info btn-sm" data-toggle="modal" data-target="#addModal" title="test"><i class="fa fa-plus"></i></button>
                 </div>
             </div><!-- /.box-header -->
-            <div class="box-body table-responsive no-padding">
-                <table id="example1" class="table table-hover">
+            <div class="box-body">
+                <table id="example1" class="table table-responsive table-hover">
                     <thead>
                         <tr>
                             <th>ID Type</th>
