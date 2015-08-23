@@ -32,8 +32,8 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li <?= (($page == 'income') ? 'class="active"' : '') ?>><a href="<?= base_url('accounting/income') ?>"><i class="fa fa-circle-o"></i> เพิ่มรายรับ</a></li>
-                    <li <?= (($page == 'outcome') ? 'class="active"' : '') ?>><a href="<?= base_url('accounting/outcome') ?>"><i class="fa fa-circle-o"></i> เพิ่มรายจ่าย</a></li>
+                    <li <?= (($subpage == 'income') ? 'class="active"' : '') ?>><a href="<?= base_url('accounting/income') ?>"><i class="fa fa-circle-o"></i> เพิ่มรายรับ</a></li>
+                    <li <?= (($subpage == 'outcome') ? 'class="active"' : '') ?>><a href="<?= base_url('accounting/outcome') ?>"><i class="fa fa-circle-o"></i> เพิ่มรายจ่าย</a></li>
                 </ul>
             </li>
             <li class="treeview <?= (($page == 'report') ? 'active' : '') ?>">
@@ -42,9 +42,9 @@
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
-                    <li  <?= (($page == 'today') ? 'class="active"' : '') ?>><a href="<?= base_url('report/today') ?>"><i class="fa fa-circle-o"></i> วันนี้</a></li>
-                    <li  <?= (($page == 'week') ? 'class="active"' : '') ?>><a href="<?= base_url('report/week') ?>"><i class="fa fa-circle-o"></i> สัปดาห์</a></li>
-                    <li  <?= (($page == 'income') ? 'class="active"' : '') ?>><a href="../forms/editors.html"><i class="fa fa-circle-o"></i> Editors</a></li>
+                    <li <?= (($subpage == 'today') ? 'class="active"' : '') ?>><a href="<?= base_url('report/today') ?>"><i class="fa fa-circle-o"></i> วันนี้</a></li>
+                    <li <?= (($subpage == 'week') ? 'class="active"' : '') ?>><a href="<?= base_url('report/week') ?>"><i class="fa fa-circle-o"></i> สัปดาห์</a></li>
+                    <li <?= (($subpage == 'range') ? 'class="active"' : '') ?>><a href="<?= base_url('report/range') ?>"><i class="fa fa-circle-o"></i> กำหนดเอง</a></li>
                 </ul>
             </li>
             <li class="treeview <?= (($page == 'setting') ? 'active' : '') ?>">

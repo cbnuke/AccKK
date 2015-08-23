@@ -53,6 +53,10 @@ Class Datetime_model extends CI_Model {
         return date('Y-m-d');
     }
 
+    function DBToDayTime() {
+        return date('Y-m-d H:i:s');
+    }
+
     function DayMinusDay($day) {
         return date('Y-m-d', strtotime($this->nowToDBFormat() . "-" . $day . " days"));
     }

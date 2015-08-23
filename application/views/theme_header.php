@@ -26,6 +26,9 @@
         <!-- morris -->
         <?= css('morris.css') ?>
 
+        <!-- date-range-picker -->
+        <?= css('daterangepicker-bs3.css') ?>
+
         <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
         <!--[if lt IE 9]>
@@ -46,6 +49,8 @@
         <?= js('moment-with-locales.js') ?>
         <!-- bootstrap datetimepicker -->
         <?= js('bootstrap-datetimepicker.min.js') ?>
+        <!-- date-range-picker -->
+        <?= js('plugins/daterangepicker/daterangepicker.js') ?>
         <!-- morris -->
         <?= js('raphael-min.js') ?>
         <?= js('plugins/morris/morris.min.js') ?>
