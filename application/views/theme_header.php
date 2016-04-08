@@ -55,8 +55,8 @@
         <?= js('raphael-min.js') ?>
         <?= js('plugins/morris/morris.min.js') ?>
     </head>
-    <!-- ADD THE CLASS sidedar-collapse TO HIDE THE SIDEBAR PRIOR TO LOADING THE SITE -->
-    <body class="skin-green-light sidebar-collapse sidebar-mini">
+    <!-- ADD THE CLASS sidedar-collapse TO HIDE THE SIDEBAR PRIOR TO LOADING THE SITE "sidebar-collapse sidebar-mini" -->
+    <body class="skin-green-light">
         <!-- Site wrapper -->
         <div class="wrapper">
 

@@ -28,7 +28,7 @@
             <li <?= (($page == 'home') ? 'class="active"' : '') ?>><a href="<?= base_url('home') ?>"><i class="fa fa-home"></i> <span>หน้าหลัก</span></a></li>
             <li class="treeview <?= (($page == 'accounting') ? 'active' : '') ?>">
                 <a href="#">
-                    <i class="fa fa-edit"></i> <span>เพิ่ม รายรับ รายจ่าย</span>
+                    <i class="fa fa-edit"></i> <span>รายรับ รายจ่าย</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
@@ -47,12 +47,25 @@
                     <li <?= (($subpage == 'range') ? 'class="active"' : '') ?>><a href="<?= base_url('report/range') ?>"><i class="fa fa-circle-o"></i> กำหนดเอง</a></li>
                 </ul>
             </li>
+            <li <?= (($page == 'home') ? 'class="active"' : '') ?>><a href="<?= base_url('home') ?>"><i class="fa fa-home"></i> <span> ขายสินค้า</span></a></li>
+            <li <?= (($page == 'home') ? 'class="active"' : '') ?>><a href="<?= base_url('home') ?>"><i class="fa fa-home"></i> <span> นำเข้าสินค้า</span></a></li>
+            <li class="treeview <?= (($page == 'setting') ? 'active' : '') ?>">
+                <a href="#">
+                    <i class="fa fa-gears"></i> <span>ตั้งค่าตัวแทนจำหน่าย</span>
+                    <i class="fa fa-angle-left pull-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li <?= (($subpage == 'type') ? 'class="active"' : '') ?>><a href="<?= base_url('setting/type') ?>"><i class="fa fa-circle-o"></i> แผนที่ร้าน</a></li>
+                    <li <?= (($subpage == 'type') ? 'class="active"' : '') ?>><a href="<?= base_url('setting/type') ?>"><i class="fa fa-circle-o"></i> ตัวแทนจำหน่าย</a></li>
+                </ul>
+            </li>
             <li class="treeview <?= (($page == 'setting') ? 'active' : '') ?>">
                 <a href="#">
                     <i class="fa fa-gears"></i> <span>ตั้งค่าระบบ</span>
                     <i class="fa fa-angle-left pull-right"></i>
                 </a>
                 <ul class="treeview-menu">
+                    <li <?= (($subpage == 'type') ? 'class="active"' : '') ?>><a href="<?= base_url('setting/type') ?>"><i class="fa fa-circle-o"></i> ประเภทสินค้า</a></li>
                     <li <?= (($subpage == 'type') ? 'class="active"' : '') ?>><a href="<?= base_url('setting/type') ?>"><i class="fa fa-circle-o"></i> ประเภทค่าใช้จ่าย</a></li>
                     <li <?= (($subpage == 'users') ? 'class="active"' : '') ?>><a href="<?= base_url('setting/users') ?>"><i class="fa fa-circle-o"></i> ผู้ใช้งาน</a></li>
                 </ul>
